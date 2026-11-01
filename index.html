@@ -162,7 +162,7 @@ main{max-width:760px;margin:0 auto}
           <div id="build-version" class="sub"></div>
           <button id="update-shell" hidden>刷新到新版</button>
           <button id="fullscreen">全屏阅读</button>
-          <div class="hint">阅读、收藏和筛选结果都会自动同步；归档仍受桌面影子模式保护。</div>
+          <div class="hint">阅读、收藏和筛选结果都会自动同步；归档仍由桌面按 picks 确认与决策摘要生成骨架。</div>
         </div>
       </details>
     </div>
@@ -195,7 +195,7 @@ main{max-width:760px;margin:0 auto}
 <script>
 'use strict';
 /* 无后端、无依赖的私有仓阅读器。公开发布与 SW 仅含空壳；业务数据只存本机和私有仓。 */
-const BUILD_VERSION = '7a46acc67484af9e';
+const BUILD_VERSION = '7f421411cde13b4b';
 const validBuildVersion = v => typeof v === 'string' && v.length === 16 && /^[0-9a-f]{16}$/.test(v);
 const CURRENT_VERSION = validBuildVersion(BUILD_VERSION) ? BUILD_VERSION : 'dev';
 const PROVIDERS = {
@@ -2093,7 +2093,7 @@ async function deliver() {
     await save();
     if (S.outbox.size || draftDates().length) return;
   }
-  if (!confirm(`确认 ${date} 的筛选并投递已确认干货到清洗队列？仅处理这一天，不会投递其他已加载日期；桌面仍受影子模式保护，投递不等于完成归档。`)) return;
+  if (!confirm(`确认 ${date} 的筛选并投递已确认干货到清洗队列？仅处理这一天，不会投递其他已加载日期；桌面仍按 picks 确认与决策摘要生成归档骨架，投递不等于清洗完成。`)) return;
   S.busy = true; updateStatus();
   try {
     const text = fileText(await apiGet(`daily/${date}/picks.md`), `daily/${date}/picks.md`) || '';
@@ -2199,7 +2199,7 @@ async function promptPin() {
 function maybeExplainAutoSync() {
   try { if (localStorage.getItem(AUTO_SYNC_NOTICE_KEY)) return; localStorage.setItem(AUTO_SYNC_NOTICE_KEY, '1'); }
   catch (e) { return; }
-  setTimeout(() => toast('阅读、收藏和筛选结果都会自动同步；归档仍受桌面影子模式保护。', 6000), 800);
+  setTimeout(() => toast('阅读、收藏和筛选结果都会自动同步；归档仍由桌面按 picks 确认与决策摘要生成骨架。', 6000), 800);
 }
 async function boot() {
   if (unsafeHttp()) return showHTTPSWarning();
