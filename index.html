@@ -195,11 +195,11 @@ main{max-width:760px;margin:0 auto}
 <script>
 'use strict';
 /* 无后端、无依赖的私有仓阅读器。公开发布与 SW 仅含空壳；业务数据只存本机和私有仓。 */
-const BUILD_VERSION = '48da302c67520dda';
+const BUILD_VERSION = 'ae9d2b2dbcbac705';
 const validBuildVersion = v => typeof v === 'string' && v.length === 16 && /^[0-9a-f]{16}$/.test(v);
 const CURRENT_VERSION = validBuildVersion(BUILD_VERSION) ? BUILD_VERSION : 'dev';
 const PROVIDERS = {
-  gitee: { label: 'Gitee 私有仓', base: 'https://gitee.com/api/v5', repo: 'davidsheh/spider',
+  gitee: { label: 'Gitee 私有仓', base: 'https://gitee.com/api/v5', repo: 'davidsheh/spider-data',
     hint: 'Gitee 私人令牌（勾 projects）。它是账号级权限，等于该账号所有仓可读写。' },
   github: { label: 'GitHub 私有仓（推荐）', base: 'https://api.github.com', repo: 'davidsheh/spider-mobile',
     hint: 'GitHub fine-grained PAT：只授权这一个仓、只 Contents 读写。Gitee 令牌永不上手机。' },
@@ -247,7 +247,7 @@ function emptySyncMeta() {
     policy: '', lastBatchBytes: 0, lastBatchOps: 0, lastPicksAt: '' };
 }
 const S = {
-  cfg: { owner: 'davidsheh', repo: 'spider', branch: '', provider: 'gitee' }, token: '', pin: null,
+  cfg: { owner: 'davidsheh', repo: 'spider-data', branch: '', provider: 'gitee' }, token: '', pin: null,
   dates: [], date: '', feed: null, keep: new Map(), pending: {}, reading: emptyReading(),
   store: emptyStore(), readingDirty: false, dirty: false, busy: false, offline: false,
   view: 'good', readFilter: 'all', heldRead: new Set(), storageError: false,
