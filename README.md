@@ -140,7 +140,7 @@ Windows 路径通常为 `C:\Users\<用户名>\.spider_pages_token`。不把令�
 ```bash
 python -B console/publish.py --dry-run  # 完全离线，不读 PAT；列文件、大小、版本
 python -B console/publish.py --check    # 联网只读；检查来源、HTTPS、远端差异
-python -B console/publish.py            # 真正写远端、请求构建并等待部署验证
+python -B console/publish.py            # 真正写远端、等构建并验证部署（等不到自动构建才补一次请求）
 ```
 
 发布仅上传五个源空壳文件，以及内存生成的 `release.json`、`.nojekyll`；不递归上传 console
@@ -167,6 +167,11 @@ python -B console/publish.py --api-only --https-url https://codebug.top/xuepo/
 该模式只确认目标提交的 Pages 构建完成，**不会声称桌面站点连接或线上 HTML/SW 验证成功**
 （输出会写明「桌面站点连接与线上文件未验证」）。默认命令依旧要求桌面 HTTPS 实际探测；
 此模式不能自动启用，也不能存成常驻默认配置。
+
+更新分支本身就会触发 Pages 自动构建，所以**不再立刻请求构建**：先等约 20 秒看自动构建是否出现，
+等不到才补一次显式请求。GitHub 会把同一提交的自动构建与显式请求留成两条记录，其中一条会立刻
+变成 errored（耗时为 0、`Page build failed.`）——那只是被去重的重复记录，不是真失败。
+因此判定按该提交的**全部**构建记录：出现 built 才继续验证，全部 errored 才算构建失败。
 
 默认等待 180 秒轮询目标提交的构建（单个网络请求最多 20 秒 socket 超时；DNS/网络可能使总时长更长）。
 `--timeout 300` 可延长轮询等待；`--no-wait` 只是不等构建，不能据此认为已部署。
