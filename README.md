@@ -107,7 +107,7 @@
 可将 `console/` 空壳单独部署到 HTTPS 静态站点（GitHub Pages、Netlify Drop、EdgeOne Pages 等），不要包含 `data/`、`daily/`、`archive/`。编辑源码本身不会发布，GitHub 一键发布命令见下节。
 
 1. 打开空壳，选择 Gitee / GitHub，填写 `owner/repo`、可选分支及令牌。
-2. 推荐 GitHub fine-grained PAT，仅授权数据面私有仓 `Contents: Read and write`。Gitee 私人令牌勾 `projects`，属账号级权限，建议用只协作该仓的专用账号。
+2. 令牌：Gitee 请用**仓库级私人令牌**（令牌类型选「仓库级」，范围只勾数据仓，权限勾 `projects`；2026-11-01 起 Gitee 支持，早于此的判断见 ADR-0012 §7 的日期变更）；GitHub 用 fine-grained PAT，仅授权数据面私有仓 `Contents: Read and write`。两者都没有「只读」档位。
 3. PIN 可选；留空明文保存在本机，设置后每次打开解锁。
 4. 浏览器菜单 → **添加到主屏幕**，从主屏幕启动。
 
